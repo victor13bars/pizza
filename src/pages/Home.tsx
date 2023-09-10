@@ -17,10 +17,11 @@ const Home = () => {
                 setItems(arr)
                 setIsLoading(false)
             })
+        window.scrollTo(0, 0);
     }, [])
 
     return (
-        <>
+        <div className="container">
             <div className="content__top">
                 <Categories/>
                 <Sort/>
@@ -41,7 +42,7 @@ const Home = () => {
                             />
                         ))}
             </div>
-        </>
+        </div>
     );
 };
 
