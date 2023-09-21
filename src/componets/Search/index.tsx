@@ -1,12 +1,15 @@
-import React, {ChangeEvent} from 'react';
+import React from 'react';
 import styles from './Search.module.scss';
+import {SearchContext} from "../../App";
 
 export interface SearchProps {
     searchValue: string
     setSearchValue: (value: string) => void
 }
 
-const Search = ({searchValue, setSearchValue}: SearchProps) => {
+const Search = () => {
+
+    const {searchValue,setSearchValue} = React.useContext(SearchContext)
 
     const onClickClear = () => {
         setSearchValue('')
