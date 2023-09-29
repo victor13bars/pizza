@@ -7,8 +7,6 @@ import {SearchContext} from "../App";
 
 const Header = () => {
 
-    const {searchValue,setSearchValue} = React.useContext(SearchContext)
-
     return (
         <div className="header">
             <div className="container">
