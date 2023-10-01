@@ -96,6 +96,7 @@ const Home = () => {
         ({id, title, price, imageUrl, sizes, types}) => (
             <Pizza
                 key={id}
+                id={id}
                 title={title}
                 price={price}
                 imageUrl={imageUrl}
