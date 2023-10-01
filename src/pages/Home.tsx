@@ -1,14 +1,15 @@
-import React, {useEffect, useState} from 'react';
-
+import React, {useEffect, useRef, useState} from 'react';
+import qs from 'qs';
 import Categories from "../componets/Categories";
-import Sort from "../componets/Sort";
+import Sort, {sortList} from "../componets/Sort";
 import Pizza from "../componets/PizzaBlock/Pizza";
 import Skeleton from "../componets/PizzaBlock/Skeleton";
 import Pagination from "../componets/Pagination";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../redux/store";
-import {setCategoryId, setCurrentPage} from "../redux/slices/filterSlice";
+import {setCategoryId, setCurrentPage, setFilters} from "../redux/slices/filterSlice";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 export interface PizzaType {
     id: number
@@ -23,12 +24,15 @@ export interface PizzaType {
 
 const Home = () => {
 
-    const sortType = useSelector<RootState, string>(state => state.filter.sort.sortProperty)
+    const isSearch = useRef(false)
+    const isMounted = useRef(false)
+    const sortProperty = useSelector<RootState, string>(state => state.filter.sort.sortProperty)
     const categoryId = useSelector<RootState, number>(state => state.filter.categoryId)
-    const currentPage = useSelector<RootState,number>(state => state.filter.currentPage)
+    const currentPage = useSelector<RootState, number>(state => state.filter.currentPage)
     const [items, setItems] = useState<Array<PizzaType>>([])
     const [isLoading, setIsLoading] = useState(true)
     const searchValue = ''
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const onClickCategory = (id: number) => {
         dispatch(setCategoryId(id))
@@ -37,11 +41,11 @@ const Home = () => {
         dispatch(setCurrentPage(page))
     }
 
-    useEffect(() => {
+    const fetchPizzas = () => {
         setIsLoading(true)
 
-        const order = sortType.includes('-') ? 'asc' : 'desc'
-        const sortBy = sortType.replace('-', '')
+        const order = sortProperty.includes('-') ? 'asc' : 'desc'
+        const sortBy = sortProperty.replace('-', '')
         const category = categoryId > 0 ? categoryId : ''
         // const search = searchValue ? `&search=${searchValue}` : ''
         const search = ''
@@ -51,8 +55,42 @@ const Home = () => {
                 setItems(res.data)
                 setIsLoading(false)
             })
+    }
+
+    useEffect(() => {
+        if (isMounted.current) {
+            const queryString = qs.stringify({
+                sortProperty,
+                categoryId,
+                currentPage
+            })
+            navigate(`${queryString}`)
+        }
+        isMounted.current = true
+    }, [categoryId, sortProperty, currentPage])
+
+    useEffect(() => {
+        if (window.location.search) {
+            const params = qs.parse(window.location.search.substring(1))
+            const sort = sortList.find(obj => obj.sortProperty === params.sortProperty)
+
+            dispatch(setFilters({
+                ...params,
+                sort
+            }))
+            isSearch.current = true
+        }
+    }, [])
+
+    useEffect(() => {
         window.scrollTo(0, 0);
-    }, [categoryId, sortType, searchValue, currentPage])
+
+        if (!isSearch.current) {
+            fetchPizzas()
+        }
+
+        isSearch.current = false
+    }, [categoryId, sortProperty, searchValue, currentPage])
 
     const pizzas = items.map(
         ({id, title, price, imageUrl, sizes, types}) => (
