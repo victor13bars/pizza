@@ -50,6 +50,8 @@ export const fetchPizzas = createAsyncThunk('pizza/fetchPizzas', async (params) 
     return data
 })
 
+export const selectPizzaData = (state) => state.pizza
+
 export const {
     setItems
 } = pizzaSlice.actions

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {addItem} from "../../redux/slices/cartSlice";
+import {addItem, selectCartItemById} from "../../redux/slices/cartSlice";
 
 interface PizzaProps {
     id: number
@@ -15,9 +15,9 @@ const typeNames = ['тонкое', 'традиционное'];
 
 const Pizza = (props: PizzaProps) => {
 
-    const dispatch = useDispatch()
-    const cartItem = useSelector(state => state.cart.items.find(obj => obj.id === id))
     const {id, title, price, imageUrl, sizes, types} = props;
+    const dispatch = useDispatch()
+    const cartItem = useSelector(selectCartItemById(id))
     const [activeType, setActiveType] = useState(0);
     const [activeSize, setActiveSize] = useState(0);
     const addedCount = cartItem ? cartItem.count : 0

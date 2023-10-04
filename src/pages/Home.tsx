@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import qs from 'qs';
 import Categories from "../componets/Categories";
 import Sort, {sortList} from "../componets/Sort";
@@ -6,20 +6,17 @@ import Pizza from "../componets/PizzaBlock/Pizza";
 import Skeleton from "../componets/PizzaBlock/Skeleton";
 import Pagination from "../componets/Pagination";
 import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../redux/store";
-import {setCategoryId, setCurrentPage, setFilters} from "../redux/slices/filterSlice";
+import {selectFilter, setCategoryId, setCurrentPage, setFilters} from "../redux/slices/filterSlice";
 import {useNavigate} from "react-router-dom";
-import {fetchPizzas} from "../redux/slices/pizzaSlice";
+import {fetchPizzas, selectPizzaData} from "../redux/slices/pizzaSlice";
 
 const Home = () => {
 
     const isSearch = useRef(false)
     const isMounted = useRef(false)
-    const sortProperty = useSelector<RootState, string>(state => state.filter.sort.sortProperty)
-    const categoryId = useSelector<RootState, number>(state => state.filter.categoryId)
-    const {items, status} = useSelector(state => state.pizza)
-    const currentPage = useSelector<RootState, number>(state => state.filter.currentPage)
-    const searchValue = ''
+    const {items, status} = useSelector(selectPizzaData)
+    const {currentPage, categoryId, sort,searchValue} = useSelector(selectFilter)
+    const {sortProperty} = sort
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const onClickCategory = (id: number) => {
@@ -33,8 +30,7 @@ const Home = () => {
         const order = sortProperty.includes('-') ? 'asc' : 'desc'
         const sortBy = sortProperty.replace('-', '')
         const category = categoryId > 0 ? categoryId : ''
-        // const search = searchValue ? `&search=${searchValue}` : ''
-        const search = ''
+        const search = searchValue ? `&search=${searchValue}` : ''
 
         dispatch(fetchPizzas({
             order,
@@ -111,7 +107,7 @@ const Home = () => {
                 <div className="content__items">{status === 'loading' ? skeletons : pizzas}</div>
             )}
 
-            <Pagination currentPage={currentPage} onChangePage={onChangePage} />
+            <Pagination currentPage={currentPage} onChangePage={onChangePage}/>
         </div>
     );
 };

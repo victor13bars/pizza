@@ -6,12 +6,14 @@ export interface SortType {
 }
 
 export interface FilterType {
+    searchValue: string
     categoryId: number
     currentPage: number
     sort: SortType
 }
 
 const initialState: FilterType = {
+    searchValue: '',
     categoryId: 0,
     currentPage: 1,
     sort: {
@@ -24,6 +26,9 @@ export const filterSlice = createSlice({
     name: 'filter',
     initialState,
     reducers: {
+        setSearchValue: (state, action) => {
+            state.searchValue = action.payload
+        },
         setCategoryId: (state, action) => {
             state.categoryId = action.payload
         },
@@ -41,7 +46,10 @@ export const filterSlice = createSlice({
     },
 })
 
+export const selectSort = (state) => state.filter.sort
+export const selectFilter = (state) => state.filter
 export const {
+    setSearchValue,
     setFilters,
     setCategoryId,
     setSort,
