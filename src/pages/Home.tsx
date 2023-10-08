@@ -7,7 +7,7 @@ import Skeleton from "../componets/PizzaBlock/Skeleton";
 import Pagination from "../componets/Pagination";
 import {useDispatch, useSelector} from "react-redux";
 import {selectFilter, setCategoryId, setCurrentPage, setFilters} from "../redux/slices/filterSlice";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {fetchPizzas, selectPizzaData} from "../redux/slices/pizzaSlice";
 
 const Home = () => {
@@ -15,7 +15,7 @@ const Home = () => {
     const isSearch = useRef(false)
     const isMounted = useRef(false)
     const {items, status} = useSelector(selectPizzaData)
-    const {currentPage, categoryId, sort,searchValue} = useSelector(selectFilter)
+    const {currentPage, categoryId, sort, searchValue} = useSelector(selectFilter)
     const {sortProperty} = sort
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -76,22 +76,11 @@ const Home = () => {
         isSearch.current = false
     }, [categoryId, sortProperty, searchValue, currentPage])
 
-    const pizzas = items.map(
-        ({id, title, price, imageUrl, sizes, types}) => (
-            <Pizza
-                key={id}
-                id={id}
-                title={title}
-                price={price}
-                imageUrl={imageUrl}
-                sizes={sizes}
-                types={types}
-            />
-        ))
+    const pizzas = items.map((obj) => <Link to={`/pizza/${obj.id}`}><Pizza{...obj}/><Link/>)
 
-    const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index}/>)
+        const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index}/>)
 
-    return (
+        return (
         <div className="container">
             <div className="content__top">
                 <Categories value={categoryId} onChangeCategory={onClickCategory}/>
@@ -109,7 +98,7 @@ const Home = () => {
 
             <Pagination currentPage={currentPage} onChangePage={onChangePage}/>
         </div>
-    );
-};
+        );
+        };
 
-export default Home;
+        export default Home;
