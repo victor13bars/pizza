@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios/index";
 
-const FullPizza = () => {
+const FullPizza:FC = () => {
 
-    const [pizza, setPizza] = useState()
+    const [pizza , setPizza] = useState()
     const {id} = useParams()
     const navigate = useNavigate()
 
@@ -22,7 +22,7 @@ const FullPizza = () => {
     }, [])
 
     if(!pizza){
-        return 'Загрузка.......'
+        return <>Загрузка.......</>
     }
 
     return (

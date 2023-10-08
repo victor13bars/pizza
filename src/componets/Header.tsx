@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC} from 'react';
 import logoSvg from '../assets/img/pizza-logo.svg';
 import {Link, useLocation} from "react-router-dom";
 import Search from "./Search";
@@ -7,7 +7,7 @@ import {RootState} from "../redux/store";
 import {CartType, selectCart} from "../redux/slices/cartSlice";
 
 
-const Header = () => {
+const Header: FC = () => {
 
     const {pathname} = useLocation()
     const {items, totalPrice} = useSelector<RootState, CartType>(selectCart)
@@ -16,28 +16,27 @@ const Header = () => {
     return (
         <div className="header">
             <div className="container">
-                <Link to='/'>
+                <Link to="/">
                     <div className="header__logo">
                         <img width="38" src={logoSvg} alt="Pizza logo"/>
                         <div>
-                            <h1>React Pizza</h1>
+                            <h1>React Pizza V2</h1>
                             <p>самая вкусная пицца во вселенной</p>
                         </div>
                     </div>
                 </Link>
-                <Search/>
+                {location.pathname !== '/cart' && <Search/>}
                 <div className="header__cart">
-                    {pathname !== '/cart' && (
+                    {location.pathname !== '/cart' && (
                         <Link to="/cart" className="button button--cart">
-                            <span>{totalPrice} BYN</span>
+                            <span>{totalPrice} ₽</span>
                             <div className="button__delimiter"></div>
                             <svg
                                 width="18"
                                 height="18"
                                 viewBox="0 0 18 18"
                                 fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
+                                xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M6.33333 16.3333C7.06971 16.3333 7.66667 15.7364 7.66667 15C7.66667 14.2636 7.06971 13.6667 6.33333 13.6667C5.59695 13.6667 5 14.2636 5 15C5 15.7364 5.59695 16.3333 6.33333 16.3333Z"
                                     stroke="white"
@@ -66,8 +65,7 @@ const Header = () => {
                 </div>
             </div>
         </div>
-    )
-        ;
+    );
 };
 
 export default Header;

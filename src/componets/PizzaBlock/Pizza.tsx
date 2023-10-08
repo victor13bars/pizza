@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {addItem, selectCartItemById} from "../../redux/slices/cartSlice";
 
@@ -13,9 +13,16 @@ interface PizzaProps {
 
 const typeNames = ['тонкое', 'традиционное'];
 
-const Pizza = (props: PizzaProps) => {
+const Pizza: FC<PizzaProps> = (props) => {
 
-    const {id, title, price, imageUrl, sizes, types} = props;
+    const {
+        id,
+        title,
+        price,
+        imageUrl,
+        sizes,
+        types
+    } = props;
     const dispatch = useDispatch()
     const cartItem = useSelector(selectCartItemById(id))
     const [activeType, setActiveType] = useState(0);
