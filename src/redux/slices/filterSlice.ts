@@ -1,24 +1,34 @@
-import {createSlice} from '@reduxjs/toolkit'
+import {createSlice, PayloadAction} from '@reduxjs/toolkit'
+import {RootState} from "../store";
+
+export enum SortPropertyEnum {
+    RATING_DESC = 'rating',
+    RATING_ASC = '-rating',
+    PRICE_DESC = 'price',
+    PRICE_ASC = '-price',
+    TITLE_DESC = 'title',
+    TITLE_ASC = '-title',
+}
 
 export interface SortType {
     name: string
-    sortProperty: string
+    sortProperty: SortPropertyEnum
 }
 
-export interface FilterType {
+export interface FilterStateType {
     searchValue: string
     categoryId: number
     currentPage: number
     sort: SortType
 }
 
-const initialState: FilterType = {
+const initialState: FilterStateType = {
     searchValue: '',
     categoryId: 0,
     currentPage: 1,
     sort: {
         name: 'популярности',
-        sortProperty: 'rating'
+        sortProperty: SortPropertyEnum.RATING_DESC
     }
 }
 
@@ -26,19 +36,19 @@ export const filterSlice = createSlice({
     name: 'filter',
     initialState,
     reducers: {
-        setSearchValue: (state, action) => {
+        setSearchValue: (state, action: PayloadAction<string>) => {
             state.searchValue = action.payload
         },
-        setCategoryId: (state, action) => {
+        setCategoryId: (state, action: PayloadAction<number>) => {
             state.categoryId = action.payload
         },
-        setSort: (state, action) => {
+        setSort: (state, action: PayloadAction<SortType>) => {
             state.sort = action.payload
         },
-        setCurrentPage: (state, action) => {
+        setCurrentPage: (state, action: PayloadAction<number>) => {
             state.currentPage = action.payload
         },
-        setFilters: (state, action) => {
+        setFilters: (state, action: PayloadAction<FilterStateType>) => {
             state.sort = action.payload.sort
             state.currentPage = Number(action.payload.currentPage)
             state.categoryId = Number(action.payload.categoryId)
@@ -46,8 +56,8 @@ export const filterSlice = createSlice({
     },
 })
 
-export const selectSort = (state) => state.filter.sort
-export const selectFilter = (state) => state.filter
+export const selectSort = (state: RootState) => state.filter.sort
+export const selectFilter = (state: RootState) => state.filter
 export const {
     setSearchValue,
     setFilters,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC, useCallback, useEffect, useRef} from 'react';
 import {useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import {Categories, Pagination, PizzaBlock, Skeleton, Sort} from '../components';
@@ -8,15 +8,15 @@ import {selectPizzaData} from '../redux/pizza/selectors';
 import {setCategoryId, setCurrentPage} from '../redux/filter/slice';
 import {fetchPizzas} from '../redux/pizza/asyncActions';
 
-const Home: React.FC = () => {
+const Home: FC = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const isMounted = React.useRef(false);
+    const isMounted = useRef(false);
 
     const {items, status} = useSelector(selectPizzaData);
     const {categoryId, sort, currentPage, searchValue} = useSelector(selectFilter);
 
-    const onChangeCategory = React.useCallback((idx: number) => {
+    const onChangeCategory = useCallback((idx: number) => {
         dispatch(setCategoryId(idx));
     }, []);
 
@@ -43,7 +43,7 @@ const Home: React.FC = () => {
         window.scrollTo(0, 0);
     };
 
-    React.useEffect(() => {
+    useEffect(() => {
         getPizzas();
     }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
