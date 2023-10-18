@@ -1,7 +1,6 @@
 import React, {FC} from 'react';
 import {useDispatch} from "react-redux";
-import {addItem, minusItem, removeItem} from "../redux/slices/cartSlice";
-import clsx from 'clsx';
+import {addItem, minusItem, removeItem} from "../redux/cart/slice";
 
 type TCartItem = {
     id: string;

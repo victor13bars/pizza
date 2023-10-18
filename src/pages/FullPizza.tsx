@@ -1,27 +1,27 @@
 import React, {FC, useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
-import axios from "axios/index";
+import {PizzaType} from "../redux/pizza/types";
+import axios from "axios";
 
-const FullPizza:FC = () => {
+const FullPizza: FC = () => {
 
-    const [pizza , setPizza] = useState()
+    const [pizza, setPizza] = useState<PizzaType>()
     const {id} = useParams()
     const navigate = useNavigate()
 
     useEffect(() => {
-        async function fetchPizzza() {
+        async function fetchPizza() {
             try {
-                const {data} = axios.get('https://64faf547cb9c00518f7a6c61.mockapi.io/items/' + id)
+                const {data} = await axios.get('https://64faf547cb9c00518f7a6c61.mockapi.io/items/' + id)
                 setPizza(data)
             } catch (error) {
                 navigate('/')
             }
         }
-
-        fetchPizzza()
+        fetchPizza()
     }, [])
 
-    if(!pizza){
+    if (!pizza) {
         return <>Загрузка.......</>
     }
 

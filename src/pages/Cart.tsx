@@ -2,8 +2,10 @@ import React, {FC} from 'react';
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import CartItem from "../componets/CartItem";
-import {clearItems, selectCart} from "../redux/slices/cartSlice";
+
 import {CartEmpty} from "../componets/CartEmpty";
+import {selectCart} from "../redux/cart/selectors";
+import {clearItems} from "../redux/cart/slice";
 
 const Cart: FC = () => {
 

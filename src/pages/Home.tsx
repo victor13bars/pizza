@@ -1,12 +1,16 @@
 import React, {FC, useCallback, useEffect, useRef} from 'react';
 import {useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
-import {Categories, Pagination, PizzaBlock, Skeleton, Sort} from '../components';
 import {useAppDispatch} from '../redux/store';
 import {selectFilter} from '../redux/filter/selectors';
 import {selectPizzaData} from '../redux/pizza/selectors';
 import {setCategoryId, setCurrentPage} from '../redux/filter/slice';
 import {fetchPizzas} from '../redux/pizza/asyncActions';
+import PizzaBlock from "../componets/PizzaBlock/PizzaBlock";
+import Pagination from "../componets/Pagination";
+import Sort from "../componets/Sort";
+import Categories from "../componets/Categories";
+import Skeleton from "../componets/PizzaBlock/Skeleton";
 
 const Home: FC = () => {
     const navigate = useNavigate();
@@ -55,7 +59,7 @@ const Home: FC = () => {
         <div className="container">
             <div className="content__top">
                 <Categories value={categoryId} onChangeCategory={onChangeCategory}/>
-                <Sort value={sort}/>
+                <Sort sort={sort}/>
             </div>
             <h2 className="content__title">Все пиццы</h2>
             {status === 'error' ? (

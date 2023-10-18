@@ -1,11 +1,15 @@
 import React, {FC, memo, useEffect, useRef, useState} from 'react';
 import {useDispatch} from "react-redux";
-import {setSort, SortPropertyEnum, SortType} from "../redux/slices/filterSlice";
+import {SortPropertyEnum, SortType} from "../redux/filter/types";
+import {setSort} from "../redux/filter/slice";
 
+type PopupClick = MouseEvent & {
+    path: Node[];
+};
 
-type SortPropsType = {
-    sort: SortType
-}
+type SortPopupProps = {
+    sort: SortType;
+};
 
 export const sortList: SortType[] = [
     {name: 'популярности (DESC)', sortProperty: SortPropertyEnum.RATING_DESC},
@@ -15,7 +19,7 @@ export const sortList: SortType[] = [
     {name: 'алфавиту DESC', sortProperty: SortPropertyEnum.TITLE_DESC},
     {name: 'алфавиту ASC', sortProperty: SortPropertyEnum.TITLE_ASC},
 ]
-const Sort: FC<SortPropsType> = memo(({sort}) => {
+const Sort: FC<SortPopupProps> = memo(({sort}) => {
 
     const sortRef = useRef<HTMLDivElement>(null)
     const dispatch = useDispatch()
@@ -28,9 +32,7 @@ const Sort: FC<SortPropsType> = memo(({sort}) => {
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            const _event = event as MouseEvent & {
-                path: Node[]
-            }
+            const _event = event as PopupClick
             if (sortRef.current && !_event.path.includes(sortRef.current)) {
                 setIsOpen(false)
             }
