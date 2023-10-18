@@ -14,7 +14,7 @@ interface PizzaProps {
 
 const typeNames = ['тонкое', 'традиционное'];
 
-const Pizza: FC<PizzaProps> = (props) => {
+const PizzaBlock: FC<PizzaProps> = (props) => {
 
     const {
         id,
@@ -49,7 +49,7 @@ const Pizza: FC<PizzaProps> = (props) => {
                     <img
                         className="pizza-block__image"
                         src={imageUrl}
-                        alt="Pizza"
+                        alt="PizzaBlock"
                     />
                     <h4 className="pizza-block__title">{title}</h4>
                 </Link>
@@ -101,4 +101,4 @@ const Pizza: FC<PizzaProps> = (props) => {
     );
 };
 
-export default Pizza;
+export default PizzaBlock;

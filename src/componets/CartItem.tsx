@@ -1,6 +1,7 @@
 import React, {FC} from 'react';
 import {useDispatch} from "react-redux";
 import {addItem, minusItem, removeItem} from "../redux/slices/cartSlice";
+import clsx from 'clsx';
 
 type TCartItem = {
     id: string;
@@ -11,7 +12,7 @@ type TCartItem = {
     count: number;
     imageUrl: string;
 };
-const CartItem:FC<TCartItem> = (props) => {
+const CartItem: FC<TCartItem> = (props) => {
 
     const dispatch = useDispatch()
     const {
@@ -37,7 +38,7 @@ const CartItem:FC<TCartItem> = (props) => {
     return (
         <div className="cart__item">
             <div className="cart__item-img">
-                <img className="pizza-block__image" src={imageUrl} alt="Pizza"/>
+                <img className="pizza-block__image" src={imageUrl} alt="PizzaBlock"/>
             </div>
             <div className="cart__item-info">
                 <h3>{title}</h3>

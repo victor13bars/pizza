@@ -1,14 +1,13 @@
-import React, {FC, useEffect, useRef, useState} from 'react';
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../redux/store";
-import {selectSort, setSort, SortPropertyEnum, SortType} from "../redux/slices/filterSlice";
+import React, {FC, memo, useEffect, useRef, useState} from 'react';
+import {useDispatch} from "react-redux";
+import {setSort, SortPropertyEnum, SortType} from "../redux/slices/filterSlice";
 
-type SortItem = {
-    name: string
-    sortProperty: SortPropertyEnum
+
+type SortPropsType = {
+    sort: SortType
 }
 
-export const sortList: SortItem[] = [
+export const sortList: SortType[] = [
     {name: 'популярности (DESC)', sortProperty: SortPropertyEnum.RATING_DESC},
     {name: 'популярности (ASC)', sortProperty: SortPropertyEnum.RATING_ASC},
     {name: 'цене DESC', sortProperty: SortPropertyEnum.PRICE_DESC},
@@ -16,14 +15,13 @@ export const sortList: SortItem[] = [
     {name: 'алфавиту DESC', sortProperty: SortPropertyEnum.TITLE_DESC},
     {name: 'алфавиту ASC', sortProperty: SortPropertyEnum.TITLE_ASC},
 ]
-const Sort: FC = () => {
+const Sort: FC<SortPropsType> = memo(({sort}) => {
 
     const sortRef = useRef<HTMLDivElement>(null)
     const dispatch = useDispatch()
-    const sort = useSelector<RootState, SortType>(selectSort)
     const [isOpen, setIsOpen] = useState(false)
 
-    const onClickListItem = (obj: SortItem) => {
+    const onClickListItem = (obj: SortType) => {
         dispatch(setSort(obj))
         setIsOpen(false)
     }
@@ -81,5 +79,5 @@ const Sort: FC = () => {
             )}
         </div>
     );
-};
+});
 export default Sort;
