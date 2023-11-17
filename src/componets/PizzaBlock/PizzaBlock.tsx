@@ -4,20 +4,13 @@ import {Link} from "react-router-dom";
 import {CartItemType} from "../../redux/cart/types";
 import {selectCartItemById} from "../../redux/cart/selectors";
 import {addItem} from "../../redux/cart/slice";
+import {PizzaType} from "../../redux/pizza/types";
 
-interface PizzaProps {
-    id: string
-    title: string
-    price: number
-    imageUrl: string
-    sizes: Array<number>
-    types: Array<number>
-    rating:number
-}
+
 
 const typeNames = ['тонкое', 'традиционное'];
 
-const PizzaBlock: FC<PizzaProps> = (props) => {
+const PizzaBlock: FC<PizzaType> = (props) => {
 
     const {
         id,

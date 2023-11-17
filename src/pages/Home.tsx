@@ -11,11 +11,11 @@ import Pagination from "../componets/Pagination";
 import Sort from "../componets/Sort";
 import Categories from "../componets/Categories";
 import Skeleton from "../componets/PizzaBlock/Skeleton";
+import {PizzaType, Status} from "../redux/pizza/types";
 
 const Home: FC = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const isMounted = useRef(false);
 
     const {items, status} = useSelector(selectPizzaData);
     const {categoryId, sort, currentPage, searchValue} = useSelector(selectFilter);
@@ -52,8 +52,8 @@ const Home: FC = () => {
     }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
 
-    const pizzas = items.map((obj: any) => <PizzaBlock key={obj.id} {...obj} />);
-    const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index}/>);
+    const pizzas = items.map((obj:PizzaType) => <PizzaBlock key={obj.id} {...obj} />);
+    const skeletons = [...new Array(4)].map((_, index) => <Skeleton key={index}/>);
 
     return (
         <div className="container">
@@ -62,16 +62,18 @@ const Home: FC = () => {
                 <Sort sort={sort}/>
             </div>
             <h2 className="content__title">Все пиццы</h2>
-            {status === 'error' ? (
+            {status === Status.ERROR ? (
                 <div className="content__error-info">
                     <h2>Произошла ошибка 😕</h2>
                     <p>К сожалению, не удалось получить питсы. Попробуйте повторить попытку позже.</p>
                 </div>
             ) : (
-                <div className="content__items">{status === 'loading' ? skeletons : pizzas}</div>
+                <div className="content__items">
+                    {status === Status.LOADING ? skeletons : pizzas}
+                </div>
             )}
 
-            <Pagination currentPage={currentPage} onChangePage={onChangePage}/>
+            {status === Status.SUCCESS && <Pagination currentPage={currentPage} onChangePage={onChangePage}/>}
         </div>
     );
 };

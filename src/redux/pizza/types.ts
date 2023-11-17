@@ -13,11 +13,11 @@ export type SearchPizzaType = {
 }
 
 export interface PizzaType {
-    id: number
+    id: string
     imageUrl: string
     title: string
-    type: string
-    size: number
+    sizes: Array<number>
+    types: Array<number>
     price: number
     category: number
     rating: number

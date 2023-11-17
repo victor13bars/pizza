@@ -28,8 +28,8 @@ const Header: FC = () => {
                     <div className="header__logo">
                         <img width="38" src={logoSvg} alt="PizzaBlock logo"/>
                         <div>
-                            <h1>React PizzaBlock V2</h1>
-                            <p>самая вкусная пицца во вселенной</p>
+                            <h1>React Pizza</h1>
+                            <p>самая вкусная пицца</p>
                         </div>
                     </div>
                 </Link>
@@ -37,7 +37,7 @@ const Header: FC = () => {
                 <div className="header__cart">
                     {location.pathname !== '/cart' && (
                         <Link to="/cart" className="button button--cart">
-                            <span>{totalPrice} ₽</span>
+                            <span>{totalPrice} BYN</span>
                             <div className="button__delimiter"></div>
                             <svg
                                 width="18"
